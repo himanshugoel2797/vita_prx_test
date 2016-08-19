@@ -12,9 +12,9 @@ ASFLAGS = $(CFLAGS)
 
 all: eboot.bin
 	cd prx && make all
-	cp prx/eboot.bin module.prx
+	cp prx/eboot.bin module.suprx
 	vita-mksfoex -s TITLE_ID=$(TITLE_ID) "$(TARGET)" param.sfo
-	vita-pack-vpk -s param.sfo -b eboot.bin -a module.prx=module.prx $(TARGET).vpk
+	vita-pack-vpk -s param.sfo -b eboot.bin -a module.suprx=sce_module/module.suprx $(TARGET).vpk
 
 eboot.bin: $(TARGET).velf
 	vita-make-fself $< $@
@@ -27,7 +27,7 @@ $(TARGET).elf: $(OBJS)
 
 clean:
 	@rm -rf $(TARGET).vpk $(TARGET).velf $(TARGET).elf $(OBJS) \
-		eboot.bin param.sfo
+		eboot.bin param.sfo module.suprx
 
 vpksend: $(TARGET).vpk
 	curl -T $(TARGET).vpk ftp://$(PSVITAIP):1337/ux0:/
